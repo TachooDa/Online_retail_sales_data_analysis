@@ -1,0 +1,1 @@
+\copy online_retail_staging FROM 'C:\Users\USER\Documents\Data Analyst Course\Online_retail_sales_data_analysis\csv_files\online_retail.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', ENCODING 'UTF8');
