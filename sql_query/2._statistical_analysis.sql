@@ -48,7 +48,7 @@ from online_retail_staging
 group BY
     product_category
 order BY
-    product_category;
+    product_category limit 10;
 
 
 -- 3. mencari median untuk net revenue
@@ -98,3 +98,4 @@ SELECT
 FROM categorized_revenue
 GROUP BY product_category
 ORDER BY product_category;
+

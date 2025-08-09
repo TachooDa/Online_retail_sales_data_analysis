@@ -9,9 +9,9 @@ SELECT
     end as order_type
 
 from online_retail_staging
-limit 10;
+limit 15;
 
--- 2. median per produk untuk tahun 2011
+-- 2. median penjualan per produk untuk tahun 2011
 with median_value as (
 SELECT
     product_category,
