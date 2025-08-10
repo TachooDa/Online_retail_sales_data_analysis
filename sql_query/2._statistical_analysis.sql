@@ -99,3 +99,15 @@ FROM categorized_revenue
 GROUP BY product_category
 ORDER BY product_category;
 
+
+-- 6. Top 15 kategori produk berdasarkan total revenue
+select
+    product_category,
+    sum(quantity * unitprice) as total_revenue
+from 
+    online_retail_staging
+group by
+    product_category
+order BY
+    total_revenue desc
+limit 15;
