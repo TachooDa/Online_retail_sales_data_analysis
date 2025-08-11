@@ -97,3 +97,10 @@ WHERE word <> ''
 GROUP BY word
 ORDER BY frequency DESC
 LIMIT 100;
+
+
+delete from online_retail_staging
+where customerid is null;
+
+select customerid from online_retail_staging
+where customerid is null;

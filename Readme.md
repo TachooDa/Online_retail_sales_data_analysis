@@ -5,7 +5,7 @@ Dalam data ini terdapat :
 
 - 9.37 Millions of total revenue
 - 505,281 of total Transaction
-- 4351 of total Customer
+- 4350 of total Customer
 
 # 📌 Background
 
