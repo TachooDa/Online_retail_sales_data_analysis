@@ -25,6 +25,7 @@ Dengan melakukan analysis dataset ini, berbagai insight dapat diperoleh, seperti
 2. Mencari top Penjualan product berdasarkan country.
 3. Mencari TOP 10 kategori peroduk dengan barang yang direturn (dikembalikkan) terbanyak
 4. Analisis Cohort untuk mengamati perilaku pembelian pelanggan dari tahun ke tahun
+5. Mencari Month over Month Growth untuk mengamati perilaku pembeli (customer)
 
 # Tools yang saya gunakan
 
@@ -132,14 +133,27 @@ Berikut breakdown insight untuk Analisis Cohort guna mengamatik perilaku pembeli
 
 _Grafik/chart di atas memberikan gambaran bahwa pelanggan cohort 2010 mengalami peningkatan net revenue yang signifikan pada tahun kedua (2011), yakni lebih dari 7x lipat dibanding tahun pertama. Sementara itu, pelanggan cohort 2011 langsung menghasilkan kontribusi net revenue yang besar di tahun yang sama mereka bergabung. Hal ini menunjukkan potensi besar dari customer retention dan peluang peningkatan pembelian ulang dari pelanggan baru._
 
+### 5. Mencari Month over Month Revenue Growth untuk mengamati perilaku pembeli (customer)
+
+Berikut adalah breakdown insight Analisis Month-over-Month Revenue Growth untuk mengamati perilaku pembelian pelanggan dari bulan ke bulan sepanjang tahun 2011.
+
+- Pada bulan pertama di tahun 2011 Retail mendapatkan revenu sebesar _458K_ (cukup besar), namun pada bulan selanjutnya mengalami penurunan sejumlah **-9.7%** menjadi _413k_ pada bulan ke 2.
+- Pada bulan ke 3 dan 4 mengalami fluktuasi yg cukup signifikan jauhnya dengan persentase sebesar **32.10%** untuk pertumbuhan revenue di bulan ke 3 dan **-27.23%** untuk penurunan revenue di bulan ke 4
+- Pada bulan ke 5 pertumbuhan revenue meningkat cukup tajam dengan mencapai persentase **56.22%** dengan pertumbuhan revenue sebesar _620K_, kemudia bulan selanjutnya mengalami penurunan dan pertumbuhan yang relatif stabil, hingga mencapai puncak pada November. lalu mengalami penurunan drastis di bulan terakhir _desember_ sebanyak **-69.85%** dengan revenue hanya berjumlah _323K_.
+
+![MOM Growth](assets/6_monthly_growth.png)
+
+_Grafik di atas memberikan gambaran bahwa pertumbuhan revenue pada tahun 2011 mengalami fluktuasi yang cukup tajam dari bulan ke bulan. Lonjakan tertinggi terjadi pada Mei dengan pertumbuhan +56,22% dibanding bulan sebelumnya, sementara penurunan terdalam terjadi pada Desember dengan -69,85%. Pola ini menunjukkan adanya periode puncak penjualan di pertengahan hingga akhir tahun, diikuti penurunan drastis menjelang akhir tahun. Hal ini mengindikasikan adanya faktor musiman atau momen tertentu yang sangat memengaruhi perilaku pembelian pelanggan._
+
 # Conlusion
 
 ### Key Insight
 
 1. 📈 Rata-rata revenue tertinggi berasal dari Netherlands dengan (**123,58**), menunjukan nilai transaksi per pesanan yang lebih besar di banding negara lain. Australia (**110,94**) dan jepang (**101,32**) memiliki rata-rata revenue yang masih kompetitif.
 2. United Kingdom mendominasi penjualan dengan kategori **Ornaments** menghasilkan revenue sebesar _168.469_ -- Jauh meninggalkan negara lainnya.
-3. Kategori produk dengan paling terbanyak direturn dipimpin oleh kategori _Home Decor_ dengan jumlah barang yang dikembalikan sebanyakn 355 unit.
-4. Pelanggan cohort 2010 mengalami peningkatan net revenue yang signifikan pada tahun kedua (2011), yakni lebih dari 7x lipat dibanding tahun pertama. Sementara itu, pelanggan cohort 2011 langsung menghasilkan kontribusi net revenue yang besar di tahun yang sama mereka bergabung. Hal ini menunjukkan potensi besar dari customer retention dan peluang peningkatan pembelian ulang dari pelanggan baru
+3. 🔄 Kategori produk dengan paling terbanyak direturn dipimpin oleh kategori _Home Decor_ dengan jumlah barang yang dikembalikan sebanyakn 355 unit.
+4. 🗓 Pelanggan cohort 2010 mengalami peningkatan net revenue yang signifikan pada tahun kedua (2011), yakni lebih dari 7x lipat dibanding tahun pertama. Sementara itu, pelanggan cohort 2011 langsung menghasilkan kontribusi net revenue yang besar di tahun yang sama mereka bergabung. Hal ini menunjukkan potensi besar dari customer retention dan peluang peningkatan pembelian ulang dari pelanggan baru.
+5. 📊 Pertumbuhan revenue tahun 2011 menunjukkan fluktuasi tajam dari bulan ke bulan, dengan lonjakan tertinggi pada Mei (+56,22%) dan penurunan terdalam pada Desember (-69,85%). Pola ini mengindikasikan adanya faktor musiman atau momen tertentu yang memengaruhi perilaku pembelian pelanggan.
 
 # Closing Though
 
