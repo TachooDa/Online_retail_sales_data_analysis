@@ -139,3 +139,38 @@ select *,
     lag(avg_cohort_ltv) over(order by cohort_year), 2 
     ) as ltv_change
 from cohort_final;
+
+-- 9 retention analysis( to find churned customer over and las 6 months per purchase and country)
+with cust_last_purchase as (
+select
+    customerid,
+    country,
+    invoicedate,
+    row_number() over(partition by customerid order by invoicedate desc) as rn,
+    min(invoicedate::date) over(partition by customerid) as first_purchase_date,
+    extract(year from min(invoicedate::date)) as cohort_year
+from online_retail_staging
+group by customerid, invoicedate, country
+), churned_customer as (
+select
+    customerid,
+    country,
+    invoicedate::date as last_purchase_date,
+    case
+        when invoicedate::date < (select max(invoicedate::date) from online_retail_staging) - interval '6 months' then 'churned'
+        else 'Active'
+    end as customer_status,
+    cohort_year
+from cust_last_purchase
+where rn = 1
+and first_purchase_date < (select max(invoicedate::date) from online_retail_staging) - interval '6 months'
+)
+select
+    cohort_year,
+    customer_status,
+    count(customerid) as num_customers,
+    sum(count(customerid)) over(partition by cohort_year) as total_customers,
+    round(count(customerid) / sum(count(customerid)) over(partition by cohort_year), 2) as status_percentage
+from churned_customer
+group by
+    cohort_year, customer_status;

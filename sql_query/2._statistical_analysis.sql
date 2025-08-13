@@ -111,3 +111,60 @@ group by
 order BY
     total_revenue desc
 limit 15;
+
+
+-- 7. A/B Testing Workflow
+-- Step 1 - Aggregate metrics per group
+select * from online_retail_staging limit 10;
+WITH base_data AS (
+    SELECT
+        *,
+        CASE
+            WHEN country = 'Netherlands' THEN 'A'
+            ELSE 'B'
+        END AS variant,
+        CASE
+            WHEN quantity > 0 THEN 1 ELSE 0
+        END AS conversion,
+        (quantity * unitprice) AS revenue
+    FROM online_retail_staging
+),
+agg AS (
+    SELECT
+        variant,
+        COUNT(DISTINCT customerid)::float AS total_customer,
+        SUM(conversion)::float AS total_conversions,
+        AVG(conversion)::float AS avg_conversions,
+        AVG(revenue)::float AS avg_order_value
+    FROM base_data
+    where variant is not null
+    GROUP BY variant
+),
+pooled AS (
+    SELECT
+        MAX(CASE WHEN variant = 'A' THEN total_customer END) AS n1,
+        MAX(CASE WHEN variant = 'A' THEN total_conversions END) AS x1,
+        MAX(CASE WHEN variant = 'B' THEN total_customer END) AS n2,
+        MAX(CASE WHEN variant = 'B' THEN total_conversions END) AS x2
+    FROM agg
+)
+SELECT
+    p1,
+    p2,
+    p_pooled,
+    CASE 
+        WHEN p_pooled > 0 AND p_pooled < 1
+             AND (1.0/n1 + 1.0/n2) > 0
+        THEN (p1 - p2) / SQRT(p_pooled * (1 - p_pooled) * (1.0/n1 + 1.0/n2))
+        ELSE NULL
+    END AS z_score
+FROM (
+    SELECT
+        (x1/n1) AS p1,
+        (x2/n2) AS p2,
+        ((x1 + x2) / (n1 + n2)) AS p_pooled,
+        n1, n2
+    FROM pooled
+) t
+WHERE n1 > 0 AND n2 > 0
+LIMIT 10;

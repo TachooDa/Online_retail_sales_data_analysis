@@ -26,6 +26,7 @@ Dengan melakukan analysis dataset ini, berbagai insight dapat diperoleh, seperti
 3. Mencari TOP 10 kategori peroduk dengan barang yang direturn (dikembalikkan) terbanyak
 4. Analisis Cohort untuk mengamati perilaku pembelian pelanggan dari tahun ke tahun
 5. Mencari Month over Month Growth untuk mengamati perilaku pembeli (customer)
+6. Bagaimana cara melakukan retention analysis untuk mengidentifikasi pelanggan yang telah berhenti berlangganan (yang tidak melakukan pembelian dalam enam bulan terakhir) dan menampilkan informasi ini berdasarkan negara -> churned and active customer?
 
 # Tools yang saya gunakan
 
@@ -145,6 +146,21 @@ Berikut adalah breakdown insight Analisis Month-over-Month Revenue Growth untuk 
 
 _Grafik di atas memberikan gambaran bahwa pertumbuhan revenue pada tahun 2011 mengalami fluktuasi yang cukup tajam dari bulan ke bulan. Lonjakan tertinggi terjadi pada Mei dengan pertumbuhan +56,22% dibanding bulan sebelumnya, sementara penurunan terdalam terjadi pada Desember dengan -69,85%. Pola ini menunjukkan adanya periode puncak penjualan di pertengahan hingga akhir tahun, diikuti penurunan drastis menjelang akhir tahun. Hal ini mengindikasikan adanya faktor musiman atau momen tertentu yang sangat memengaruhi perilaku pembelian pelanggan._
 
+### 6. Bagaimana cara melakukan retention analysis untuk mengidentifikasi pelanggan yang telah berhenti berlangganan (yang tidak melakukan pembelian dalam enam bulan terakhir) dan menampilkan informasi ini berdasarkan negara -> churned and active customer?
+
+Berikut merupakan breakdown untuk key findings dan business insight untuk retention analysis guna mencari churned customer dan active customer dala perioda kurang atau sama dengan 6 bulan
+[query](sql_query/4_ranking_customer_order.sql)
+
+**📌 Key Findings**
+
+- Data dari retention analysis ritel menunjukkan perubahan drastis dalam retensi pelanggan. Pada tahun 2010, tingkat churn mencapai 100%, artinya semua pelanggan menjadi pelanggan yang churn. Namun, pada tahun 2011, terjadi perbaikan yang signifikan, dengan tingkat churn turun menjadi sekitar 27% dan sekitar 73% pelanggan menjadi pelanggan aktif.
+
+![Churned and active customer](assets/7_churned_customer_analysis.png)
+
+**📈 Business Insight:**
+
+- Peningkatan signifikan dalam tingkat retensi pelanggan dari tahun 2010 hingga 2011 merupakan wawasan yang berharga. Perusahaan ritel perlu menyelidiki perubahan spesifik apa yang dilakukan pada periode tersebut. Apakah itu peluncuran lini produk baru, kampanye pemasaran, atau peningkatan layanan pelanggan? Mengidentifikasi strategi-strategi sukses ini akan memungkinkan perusahaan ritel untuk mereplikasinya dan mengukur efektivitas strategi retensi ke depannya.
+
 # Conlusion
 
 ### Key Insight
@@ -154,7 +170,14 @@ _Grafik di atas memberikan gambaran bahwa pertumbuhan revenue pada tahun 2011 me
 3. 🔄 Kategori produk dengan paling terbanyak direturn dipimpin oleh kategori _Home Decor_ dengan jumlah barang yang dikembalikan sebanyakn 355 unit.
 4. 🗓 Pelanggan cohort 2010 mengalami peningkatan net revenue yang signifikan pada tahun kedua (2011), yakni lebih dari 7x lipat dibanding tahun pertama. Sementara itu, pelanggan cohort 2011 langsung menghasilkan kontribusi net revenue yang besar di tahun yang sama mereka bergabung. Hal ini menunjukkan potensi besar dari customer retention dan peluang peningkatan pembelian ulang dari pelanggan baru.
 5. 📊 Pertumbuhan revenue tahun 2011 menunjukkan fluktuasi tajam dari bulan ke bulan, dengan lonjakan tertinggi pada Mei (+56,22%) dan penurunan terdalam pada Desember (-69,85%). Pola ini mengindikasikan adanya faktor musiman atau momen tertentu yang memengaruhi perilaku pembelian pelanggan.
+6. Data dari retention analysis ritel menunjukkan perubahan drastis dalam retensi pelanggan. Pada tahun 2010, tingkat churn mencapai 100%, artinya semua pelanggan menjadi pelanggan yang churn. Namun, pada tahun 2011, terjadi perbaikan yang signifikan, dengan tingkat churn turun menjadi sekitar 27% dan sekitar 73% pelanggan menjadi pelanggan aktif.
 
 # Closing Though
 
 Proyek ini menganalisis data penjualan online retail menggunakan SQL dan visualisasi Python dan Power BI untuk menemukan tren penjualan, kategori produk terlaris, tingkat pengembalian barang, serta pola pembelian pelanggan. Hasil analisis memberikan wawasan yang dapat digunakan untuk pengambilan keputusan bisnis dan strategi penjualan yang lebih efektif.
+
+# Technical Details
+
+- Database: PostgreSQL
+- Analysis Tools: PostgreSQL, VSCode, PGadmin
+- Visualization: ChatGPT,Gemini and Power BI
