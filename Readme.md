@@ -17,7 +17,7 @@ Dengan melakukan analysis dataset ini, berbagai insight dapat diperoleh, seperti
 - Power BI [Visualization](https://drive.google.com/file/d/18R_6aF57MKdH1qU_FkNEqJ4ZPDekx_tL/view?usp=sharing)
 - SQL QUERY ? [query SQL](sql_query)
 
-![Sample Dashboard](assets/5_sample_dashboard.png)
+![Sample Dashboard](assets/5_dashboard.png)
 
 ### Berikut ini merupakan pertanyaan yang ingin saya jawab melalui query SQL:
 
