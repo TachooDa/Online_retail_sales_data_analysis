@@ -170,7 +170,7 @@ order by total_customer desc;
     6. Filter customer yang valid:
        - hanya menampilkan customer dengan total_sales > 0 (agar fokus pada pembeli yang benar-benar melakukan transaksi).
 */
-
+create or replace view customer_report as
 with base_query as (
 -- 1. base query to get essential fields
 select 
@@ -211,7 +211,7 @@ select
     total_qty,
     total_products,
     lifespan,
-    -- hitung average order valu (AVO/AOV)
+    -- hitung average order value (AVO/AOV)
     case
         when total_orders = 0 then 0
         else round(total_sales / total_orders,0)
@@ -221,6 +221,95 @@ select
         when lifespan = 0 then total_sales
         else round(total_sales / lifespan,0)
     end as avg_monthly_spend
-from customer_aggregation
-where
-    total_sales > 0
+from customer_aggregation;
+
+-- cek report
+select * from customer_report limit 10;
+
+-- 7. Product report
+/*
+    📦 Product Report – Summary Kebutuhan
+
+1. Ambil field penting dari tabel transaksi:
+    - invoiceno, invoicedate, stockcode, description, product_category, quantity, unitprice, customerid
+2. Agregasi per produk untuk menghitung:
+    - cost → estimasi biaya (SUM(unitprice * 0.7))
+    - total_orders → jumlah order unik produk tersebut
+    - revenue → total pendapatan (SUM(quantity * unitprice))
+    - total_sales → pembulatan revenue
+    - total_qty → total kuantitas produk yang terjual
+    - total_customers → jumlah customer unik yang membeli produk
+    - last_order_date → tanggal terakhir produk pernah dibeli
+    - lifespan_in_months → umur produk dalam bulan (selisih order pertama dan terakhir)
+3. Metrik tambahan:
+    - avg_order_revenue → rata-rata pendapatan per order (revenue ÷ total_orders)
+    - avg_monthly_revenue → rata-rata pendapatan bulanan produk (revenue ÷ lifespan_in_months)
+4. Segmentasi produk:
+    - berdasarkan revenue → Low, Medium, High
+5. Filter valid:
+    - hanya tampilkan produk dengan total_sales > 0 (agar fokus ke produk yang benar-benar terjual).
+*/
+create or replace view product_report as
+with base_query as (
+-- 1. base query to get essential fields
+select
+        invoiceno,
+        invoicedate::date as invoicedate,
+        stockcode,
+        description,
+        quantity,
+        unitprice,
+        product_category,
+        customerid
+from online_retail_staging
+where invoicedate is not null
+), product_aggregation as (
+select
+    -- 2. Aggregation untuk produk
+    description,
+    product_category,
+    stockcode,
+    sum(unitprice * 0.7) as cost,
+    count(distinct invoiceno) as total_orders,
+    round(sum(quantity * unitprice),0) as total_sales,
+    sum(quantity) as total_qty,
+    count(distinct customerid) as total_customers,
+    round(sum(quantity * unitprice) / nullif(sum(quantity), 0), 2) as avg_selling_price,
+    max(invoicedate) as last_order_date,
+    ROUND((MAX(invoicedate) - MIN(invoicedate))::numeric / 30.0, 0) AS lifespan_in_months
+from base_query
+group by stockcode,description, product_category
+)
+select 
+    stockcode,
+    description,
+    product_category,
+    cost,
+    -- product segmentation high-low-medium
+    CASE
+        WHEN total_sales > 5000 THEN 'High-performer'
+        WHEN total_sales BETWEEN 2500 AND 5000 THEN 'Mid-range'
+        ELSE 'Low-performer'
+    END AS product_segment,
+    last_order_date,
+    -- recency in months
+    DATE_PART('month', AGE(CURRENT_DATE, last_order_date)) AS recency_months,
+    lifespan_in_months,
+    total_orders,
+    total_sales,
+    total_qty,
+    total_customers,
+    avg_selling_price,
+    -- hitung average order revenue
+    case
+        when total_orders = 0 then 0
+        else round(total_sales / total_orders,0)
+    end as avg_order_revenue,
+    -- hitung average monthly revenue
+    case
+        when lifespan_in_months = 0 then total_sales
+        else round(total_sales / lifespan_in_months,0)
+    end as avg_monthly_revenue
+from product_aggregation;
+-- cek produk report
+select * from product_report limit 10;
